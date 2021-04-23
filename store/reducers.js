@@ -1,14 +1,14 @@
-import { IS_CONNECT } from "./types"
+import { IS_LOAD } from "./types"
 
 
 initialState = {
-    isConnect: true
+    loading: false
 }
 
 export const AppReducer = (state = initialState, action) => {
     switch (action.type) {
-        case IS_CONNECT:
-            return { ...state, isConnect: action.payload }
+        case IS_LOAD:
+            return { ...state, loading: action.payload }
         default:
             return state
     }
