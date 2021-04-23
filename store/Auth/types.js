@@ -1,0 +1,5 @@
+export const LOGIN = 'LOGIN'
+export const PASSWORD = 'PASSWORD'
+export const IS_AUTH = 'IS_AUTH'
+export const TOKEN = 'TOKEN'
+export const CHECK_TOKEN = 'CHECK_TOKEN'

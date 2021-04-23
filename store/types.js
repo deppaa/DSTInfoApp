@@ -1,0 +1,1 @@
+export const IS_CONNECT = 'IS_CONNECT'
