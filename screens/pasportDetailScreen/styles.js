@@ -17,5 +17,13 @@ export default StyleSheet.create({
     },
     parament: {
         fontSize: 20
-    }
+    },
+    emptyWrapper: {
+        flex: 1,
+    },
+    emptyText: {
+        textAlign: 'center',
+        fontSize: 20,
+        color: '#646464'
+    },
 })
