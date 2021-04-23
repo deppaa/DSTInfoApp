@@ -1,1 +1,1 @@
-export const IS_CONNECT = 'IS_CONNECT'
+export const IS_LOAD = 'IS_LOAD'
