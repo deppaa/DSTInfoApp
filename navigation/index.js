@@ -18,13 +18,22 @@ const Stack = createStackNavigator();
     )
 } */
 
+function Pasport(e) {
+    return (
+        <Stack.Navigator headerMode={"none"}>
+            <Stack.Screen name="PasportScreen" component={PasportScreen} />
+            <Stack.Screen name="PasportDetailScreen" component={PasportDetailScreen} />
+        </Stack.Navigator>
+    )
+}
+
 function MyCarStack() {
     return (
         <Stack.Navigator headerMode={"none"}>
             <Stack.Screen name="MyCarScreen" component={MyCarScreen} />
             <Stack.Screen name="CarScreen" component={CarScreen} />
             <Stack.Screen name="MapScreen" component={MapScreen} />
-            <Stack.Screen name="PasportScreen" component={PasportScreen} />
+            <Stack.Screen name="PasportScreen" component={Pasport} />
             <Stack.Screen name="FileScreen" component={FileScreen} />
             <Stack.Screen name="PasportDetailScreen" component={PasportDetailScreen} />
         </Stack.Navigator>

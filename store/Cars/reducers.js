@@ -1,4 +1,4 @@
-import { CAR_INFO, COUNT, GET_CAR_FILE, GET_PASPORT, IS_LOAD, LIST } from "./types"
+import { CAR_INFO, COUNT, GET_CAR_FILE, GET_PASPORT, IS_LOAD, LIST, GET_PASPORT_DETAIL, SET_PASPORT_ITEM } from "./types"
 
 initialState = {
     count: 0,
@@ -6,7 +6,9 @@ initialState = {
     carList: [],
     fileList: [],
     isLoad: false,
-    pasportList: []
+    pasportList: [],
+    pasportDetail: [],
+    curentPasportItem: []
 }
 
 export const CarReducer = (state = initialState, action) => {
@@ -23,6 +25,10 @@ export const CarReducer = (state = initialState, action) => {
             return { ...state, isLoad: action.payload }
         case GET_PASPORT:
             return { ...state, pasportList: action.payload }
+        case GET_PASPORT_DETAIL:
+            return { ...state, pasportDetail: action.payload }
+        case SET_PASPORT_ITEM:
+            return { ...state, curentPasportItem: action.payload }
         default:
             return state
     }

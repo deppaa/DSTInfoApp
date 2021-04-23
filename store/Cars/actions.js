@@ -1,6 +1,7 @@
 import axios from "axios"
 import { downloadFile, readDir, DownloadDirectoryPath, mkdir } from 'react-native-fs'
-import { CAR_INFO, COUNT, GET_CAR_FILE, LIST, IS_LOAD, GET_PASPORT } from "./types"
+import { CAR_INFO, COUNT, GET_CAR_FILE, LIST, IS_LOAD, GET_PASPORT, GET_PASPORT_DETAIL, SET_PASPORT_ITEM } from "./types"
+import { isLoading } from '../actions'
 
 export const setCarCount = (data) => {
     return {
@@ -40,6 +41,20 @@ export const isLoadComplete = (data) => {
 export const setPasport = (data) => {
     return {
         type: GET_PASPORT,
+        payload: data
+    }
+}
+
+export const setPasportDetail = (data) => {
+    return {
+        type: GET_PASPORT_DETAIL,
+        payload: data
+    }
+}
+
+export const setPasportItem = (data) => {
+    return {
+        type: SET_PASPORT_ITEM,
         payload: data
     }
 }
@@ -166,6 +181,7 @@ export const downloadCarFile = (index, url, fileName) => async (dispatch, getSta
 }
 
 export const getPasport = (token) => async (dispatch, getState) => {
+    dispatch(isLoading(true))
     try {
         const result = await axios({
             method: 'get',
@@ -177,6 +193,35 @@ export const getPasport = (token) => async (dispatch, getState) => {
 
         if (result.status == 200) {
             dispatch(setPasport(result.data.message))
+            dispatch(isLoading(false))
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const getPasportDetail = (token, nomer) => async (dispatch, getState) => {
+    dispatch(isLoading(true))
+    try {
+        const { Car } = getState()
+
+        const result = await axios({
+            method: 'POST',
+            url: 'http://192.168.210.235:2001/api/v1/getcarpasportdetail/',
+            headers: {
+                "Authorization": token,
+                'Content-Type': 'text/plain',
+                'Cookie': 'PHPSESSID=3v9bgmp4b84e2m5j2h2qs4njlg'
+            },
+            data: {
+                "nomer": nomer,
+                "table": Car.curentPasportItem.table
+            }
+        })
+
+        if (result.status == 200) {
+            dispatch(setPasportDetail(result.data.message))
+            dispatch(isLoading(false))
         }
     } catch (error) {
         console.error(error)

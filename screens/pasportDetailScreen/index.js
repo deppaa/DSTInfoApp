@@ -1,42 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, FlatList, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
 import { Header } from '../../assets/component';
+import { getPasportDetail } from '../../store/Cars/actions';
 import styles from './styles'
 
 export default PasportDetailScreen = ({ navigation }) => {
 
-    const DATA = [
-        {
-            id: 'asd',
-            name: 'Номер рамы',
-            parament: '1938'
-        },
-        {
-            id: 'asdasd',
-            name: 'КД рамы',
-            parament: 'ТМ10.1126.000-01'
-        },
-        {
-            id: 'asdasdewr',
-            name: 'Тип телег',
-            parament: '7-и катковая ТМ10.2127.000 (-01)'
-        },
-        {
-            id: 'asdff',
-            name: 'Направляющие колеса',
-            parament: '50 - 21 - 305(306)'
-        },
-        {
-            id: 'asdasdff',
-            name: 'Сегмент ведущей звезды',
-            parament: '50 - 19 - 201(ЧТЗ)'
-        },
-        {
-            id: 'asdasdewrff',
-            name: 'Гусеницы',
-            parament: '900 мм, 45 башмаков, Тm - CK - 1 - 03'
-        },
-    ]
+    const { token, nomer, pasportDetail, loading, screenTitle } = useSelector(({ Auth, Car, App }) => {
+        return {
+            token: Auth.token,
+            nomer: Car.carList.nomer,
+            pasportDetail: Car.pasportDetail,
+            loading: App.loading,
+            screenTitle: Car.curentPasportItem.name
+        }
+    })
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getPasportDetail(token, nomer))
+    }, [])
 
     const Item = ({ name, parament }) => (
         <View style={styles.item}>
@@ -45,17 +30,26 @@ export default PasportDetailScreen = ({ navigation }) => {
         </View>
     );
 
+    const emptyList = () => (
+        <View style={styles.emptyWrapper}>
+            <Text style={styles.emptyText}>Пока у нас нет данных</Text>
+        </View>
+    )
+
     return (
         <>
-            <Header title="Общая информация" goBack={() => navigation.goBack()} />
+            <Header title={screenTitle} goBack={() => navigation.goBack()} />
             <View style={styles.container}>
-                <FlatList
-                    data={DATA}
-                    renderItem={({ item }) => (<Item name={item.name} parament={item.parament} />)}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                />
+                <Spinner load={loading}>
+                    <FlatList
+                        data={pasportDetail}
+                        renderItem={({ item }) => (<Item name={item.name} parament={item.parament} />)}
+                        keyExtractor={item => item.code}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        ListEmptyComponent={() => emptyList()}
+                    />
+                </Spinner>
             </View>
         </>
     );
